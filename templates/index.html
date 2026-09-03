@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DefectVision AI | Industrial Defect Detection</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid #334155;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .status {
+            background: #14532d;
+            color: #86efac;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+            padding: 70px 20px 50px;
+            background: linear-gradient(135deg, #0f172a, #172554);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .hero h1 span {
+            color: #38bdf8;
+        }
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 18px;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        /* MAIN CONTAINER */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        /* SECTION TITLE */
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 28px;
+            color: white;
+        }
+
+        .section-title p {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        /* UPLOAD GRID */
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .upload-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 18px;
+            padding: 30px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .upload-card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+        }
+
+        .upload-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .upload-card h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .upload-card p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        /* FILE INPUT */
+
+        .file-label {
+            display: block;
+            border: 2px dashed #475569;
+            padding: 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .file-label:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* BUTTON */
+
+        button {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        /* RESULTS */
+
+        .results-section {
+            margin-top: 40px;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .result-card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px solid #334155;
+        }
+
+        .result-card h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .result-card img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #020617;
+        }
+
+        /* DETECTION SUMMARY */
+
+        .summary {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 30px;
+            border-radius: 18px;
+            margin-top: 25px;
+        }
+
+        .summary-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .total-defects {
+            text-align: center;
+            font-size: 22px;
+            padding: 15px;
+            background: #0f172a;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: #38bdf8;
+        }
+
+        .defect-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin: 10px 0;
+            background: #0f172a;
+            border-radius: 10px;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .confidence {
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        /* VIDEO */
+
+        .video-result {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 18px;
+            margin-top: 30px;
+            border: 1px solid #334155;
+        }
+
+        .video-result h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 12px;
+            background: black;
+        }
+
+        /* LOADING */
+
+        #loading {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #334155;
+            border-top: 5px solid #38bdf8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #loading p {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            color: #64748b;
+            border-top: 1px solid #334155;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            .status {
+                display: none;
+            }
+
+            .hero {
+                padding: 50px 20px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .upload-grid,
+            .results {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            Defect<span>Vision AI</span>
+        </div>
+
+        <div class="status">
+            ● AI SYSTEM ONLINE
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+            Intelligent <span>Defect Detection</span>
+        </h1>
+
+        <p>
+            AI-powered industrial surface inspection using
+            YOLO deep learning technology for fast and
+            automated defect detection.
+        </p>
+
+    </section>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Analyze Industrial Surfaces</h2>
+
+            <p>
+                Upload an image or video and let the AI detect surface defects.
+            </p>
+
+        </div>
+
+        <div style="
+            text-align: center;
+            margin-bottom: 40px;
+        ">
+
+            <a
+                href="/webcam"
+                style="
+                    display: inline-block;
+                    padding: 15px 35px;
+                    background: linear-gradient(135deg, #dc2626, #ef4444);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    font-size: 17px;
+                "
+            >
+                🔴 Start Live Webcam Detection
+            </a>
+
+        </div>
+
+
+        <!-- UPLOAD SECTION -->
+
+        <div class="upload-grid">
+
+
+            <!-- IMAGE UPLOAD -->
+
+            <div class="upload-card">
+
+                <div class="upload-icon">🖼️</div>
+
+                <h2>Image Detection</h2>
+
+                <p>
+                    Upload an industrial surface image for AI analysis.
+                </p>
+
+                <form
+                    action="/predict"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    onsubmit="showLoading('Analyzing image with AI...')"
+                >
+
+                    <label class="file-label">
+
+                        📁 Choose Image
+
+                        <input
+                            type="file"
+                            name="image"
+                            accept="image/*"
+                            required
+                        >
+
+                    </label>
+
+                    <button type="submit">
+                        🔍 Detect Defects
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- VIDEO UPLOAD -->
+
+            <div class="upload-card">
+
+                <div class="upload-icon">🎥</div>
+
+                <h2>Video Detection</h2>
+
+                <p>
+                    Upload an inspection video for frame-by-frame AI analysis.
+                </p>
+
+                <form
+                    action="/predict_video"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    onsubmit="showLoading('Processing video... This may take some time.')"
+                >
+
+                    <label class="file-label">
+
+                        📁 Choose Video
+
+                        <input
+                            type="file"
+                            name="video"
+                            accept="video/*"
+                            required
+                        >
+
+                    </label>
+
+                    <button type="submit">
+                        🎬 Analyze Video
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- IMAGE RESULTS -->
+
+        {% if uploaded_image %}
+
+        <div class="results-section">
+
+            <div class="section-title">
+                <h2>Detection Results</h2>
+            </div>
+
+            <div class="results">
+
+                <div class="result-card">
+
+                    <h3>Original Image</h3>
+
+                    <img src="{{ uploaded_image }}">
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <h3>AI Detection Result</h3>
+
+                    <img src="{{ result_image }}">
+
+                </div>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary">
+
+                <h2 class="summary-title">
+                    Detection Summary
+                </h2>
+
+                <div class="total-defects">
+
+                    Total Defects Detected:
+                    <strong>{{ total_defects }}</strong>
+
+                </div>
+
+
+                {% if detections %}
+
+                    {% for detection in detections %}
+
+                    <div class="defect-item">
+
+                        <strong>
+                            {{ detection.class | title }}
+                        </strong>
+
+                        <span class="confidence">
+                            {{ detection.confidence }}%
+                        </span>
+
+                    </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p style="text-align: center; color: #94a3b8;">
+                        No defects detected.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- VIDEO RESULT -->
+
+        {% if result_video %}
+
+        <div class="video-result">
+
+            <h2>🎥 Video Detection Result</h2>
+
+            <video controls>
+
+                <source
+                    src="{{ result_video }}"
+                    type="video/mp4"
+                >
+
+                Your browser does not support video playback.
+
+            </video>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- LOADING SCREEN -->
+
+    <div id="loading">
+
+        <div class="loader"></div>
+
+        <p id="loadingText">
+            AI is processing...
+        </p>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            DefectVision AI © 2026
+        </p>
+
+        <p style="margin-top: 8px;">
+            Industrial Defect Detection System using YOLO
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        function showLoading(message) {
+
+            document.getElementById("loadingText").innerText = message;
+
+            document.getElementById("loading").style.display = "flex";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

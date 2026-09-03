@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Live Defect Detection</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+
+        header {
+            padding: 20px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .camera-container {
+            max-width: 900px;
+            margin: auto;
+            background: #020617;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #334155;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .back-button:hover {
+            background: #1d4ed8;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>🔴 Live Industrial Defect Detection</h1>
+
+        <p>
+            Real-time AI-powered surface inspection
+        </p>
+
+    </header>
+
+
+    <div class="container">
+
+        <div class="camera-container">
+
+            <img src="{{ url_for('video_feed') }}">
+
+        </div>
+
+
+        <a
+            href="/"
+            class="back-button"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+
+</html>
