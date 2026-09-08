@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request, Response
 from ultralytics import YOLO
+from model_manager import load_best_available_model
 import os
 import uuid
 import cv2
 
 app = Flask(__name__)
+model, model_type = load_best_available_model()
 
+print(f"\nActive Detection Model: {model_type}\n")
 UPLOAD_FOLDER = "static/uploads"
 RESULT_FOLDER = "static/results"
 

@@ -1,93 +1,76 @@
-# 🔍 Industrial Surface Defect Detection System
+# Industrial Surface Defect Detection System
 
-An AI-powered Industrial Surface Defect Detection System developed using **YOLO, Python, Flask, and OpenCV**.
+## Project Overview
 
-The system detects different types of surface defects from images, videos, and live webcam streams through a web-based interface.
+The Industrial Surface Defect Detection System is an AI-powered computer vision application designed to automatically identify and detect surface defects in industrial materials.
 
----
-
-## 📌 Project Overview
-
-Quality inspection is an important part of industrial manufacturing. Manual inspection can be slow, repetitive, and prone to human error.
-
-This project uses Artificial Intelligence and Computer Vision to automatically detect surface defects in industrial materials.
-
-Users can:
-
-- Upload an image for defect detection
-- Upload a video for defect detection
-- Use live webcam detection
-- View detected defects with confidence scores
-- View bounding boxes around detected defects
+The system uses a custom-trained YOLO object detection model and provides multiple methods for defect detection, including image detection, video detection, and real-time webcam detection.
 
 ---
 
-## ✨ Features
+## Features
 
-### 🖼️ Image Detection
-
-Users can upload an image of an industrial surface. The trained YOLO model detects defects and displays:
-
-- Original image
-- Detection result
-- Defect name
-- Confidence score
-- Total number of detected defects
-
-### 🎥 Video Detection
-
-Users can upload a video containing industrial surfaces.
-
-The system processes the video frame by frame and generates a new video containing detected defects.
-
-### 📷 Live Webcam Detection
-
-The system supports real-time defect detection using a webcam.
-
-The YOLO model processes live video frames and displays detected defects with bounding boxes.
-
-### 🤖 YOLO-Based Detection
-
-The project uses a trained YOLO object detection model for identifying industrial surface defects.
+- Custom-trained YOLO model for industrial defect detection
+- Image-based defect detection
+- Video-based defect detection
+- Real-time webcam detection
+- Defect classification
+- Confidence score display
+- Bounding box visualization
+- Flask-based web application
+- ONNX model export for deployment compatibility
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - Python
+- YOLO (Ultralytics)
 - Flask
-- Ultralytics YOLO
 - OpenCV
 - PyTorch
-- NumPy
+- ONNX
 - HTML
 - CSS
 
 ---
 
-## 📂 Project Structure
+## Dataset
+
+The project uses the NEU Surface Defect Dataset for training and testing the object detection model.
+
+The model detects the following industrial surface defects:
+
+- Crazing
+- Inclusion
+- Patches
+- Pitted Surface
+- Rolled-in Scale
+- Scratches
+
+---
+
+## Project Structure
 
 ```text
 industrial_defect_detection/
 │
-├── app.py
-├── train.py
-├── create_test_video.py
-├── test_defect_video.mp4
-├── requirements.txt
-├── README.md
-│
 ├── models/
-│   └── best.pt
-│
-├── dataset/
-│   ├── NEU-DET/
-│   └── NEU-YOLO/
+│   ├── best.pt
+│   └── best.onnx
 │
 ├── static/
 │   ├── uploads/
 │   └── results/
 │
-└── templates/
-    ├── index.html
-    └── webcam.html
+├── templates/
+│   ├── index.html
+│   └── webcam.html
+│
+├── app.py
+├── train.py
+├── predict.py
+├── webcam.py
+├── create_test_video.py
+├── requirements.txt
+└── README.md
