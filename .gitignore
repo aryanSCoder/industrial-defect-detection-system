@@ -19,3 +19,8 @@ static/results/*
 # OS files
 .DS_Store
 Thumbs.db
+# Prometheus local data
+data/
+
+# YOLO training and experiment outputs
+runs/

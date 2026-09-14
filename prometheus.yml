@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "industrial-defect-detection"
+    static_configs:
+      - targets: ["monitoring:8000"]
