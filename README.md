@@ -1,76 +1,91 @@
 # Industrial Surface Defect Detection System
 
+An AI-powered computer vision system for detecting and classifying surface defects in industrial metal surfaces using YOLOv8, OpenCV, Flask, ONNX Runtime, PLC integration, and Prometheus/Grafana monitoring.
+
 ## Project Overview
 
-The Industrial Surface Defect Detection System is an AI-powered computer vision application designed to automatically identify and detect surface defects in industrial materials.
+The Industrial Surface Defect Detection System automatically detects surface defects from industrial metal images and video streams.
 
-The system uses a custom-trained YOLO object detection model and provides multiple methods for defect detection, including image detection, video detection, and real-time webcam detection.
+The system provides:
 
----
-
-## Features
-
-- Custom-trained YOLO model for industrial defect detection
 - Image-based defect detection
 - Video-based defect detection
 - Real-time webcam detection
+- YOLOv8 object detection
+- Bounding-box visualization
 - Defect classification
 - Confidence score display
-- Bounding box visualization
-- Flask-based web application
-- ONNX model export for deployment compatibility
+- ONNX model deployment support
+- PLC communication and simulation
+- Real-time system monitoring
+- Prometheus metrics
+- Grafana monitoring dashboard
+- Edge inference benchmarking
+- Error analysis
+- Hyperparameter tuning support
+- Docker deployment configuration
+
+---
+
+## Detected Defect Classes
+
+The system detects six types of industrial surface defects:
+
+1. Crazing
+2. Inclusion
+3. Patches
+4. Pitted Surface
+5. Scratches
+6. Rolled-in Scale
 
 ---
 
 ## Technologies Used
 
+### Machine Learning
 - Python
-- YOLO (Ultralytics)
-- Flask
-- OpenCV
 - PyTorch
+- Ultralytics YOLOv8
+- OpenCV
 - ONNX
-- HTML
-- CSS
+- ONNX Runtime
+
+### Backend
+- Flask
+- REST APIs
+- Python
+
+### Industrial Integration
+- PLC communication API
+- PLC simulator
+- Detection coordinates
+- Conveyor/rejection signal simulation
+
+### Monitoring
+- Prometheus
+- Grafana
+- prometheus-client
+
+### Deployment
+- Docker
+- Docker Compose
+- ONNX Runtime
+
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
 
 ---
 
 ## Dataset
 
-The project uses the NEU Surface Defect Dataset for training and testing the object detection model.
+The project uses the **NEU Surface Defect Dataset (NEU-DET)**.
 
-The model detects the following industrial surface defects:
-
-- Crazing
-- Inclusion
-- Patches
-- Pitted Surface
-- Rolled-in Scale
-- Scratches
-
----
-
-## Project Structure
+Dataset structure:
 
 ```text
-industrial_defect_detection/
-│
-├── models/
-│   ├── best.pt
-│   └── best.onnx
-│
-├── static/
-│   ├── uploads/
-│   └── results/
-│
-├── templates/
-│   ├── index.html
-│   └── webcam.html
-│
-├── app.py
-├── train.py
-├── predict.py
-├── webcam.py
-├── create_test_video.py
-├── requirements.txt
-└── README.md
+dataset/
+└── NEU-DET/
+    ├── IMAGES/
+    └── ANNOTATIONS/
